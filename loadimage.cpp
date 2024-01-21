@@ -36,17 +36,24 @@ int main(int argc, char **argv)
     wchar_t* filename = new wchar_t[filenameLen];
     mbstowcs(filename, argv[1], filenameLen);
 
-    Image image;
-    image.Load(filename);
-    for (size_t y = 0; y < height; ++y)
+    Image image(width, height);
+    if (image.Load(filename))
     {
-        for (size_t x = 0; x < width; ++x)
+        for (size_t y = 0; y < height; ++y)
         {
-            canvas.drawPixel(x, y, image.GetPixel(x, y));
+            for (size_t x = 0; x < width; ++x)
+            {
+                canvas.drawPixel(x, y, image.GetPixel(x, y));
+            }
         }
-    }
 
-    updater.TransferToDisplay(canvas.getBuffer(), ax206);
+        ax206.SetBrightness(ax206.GetMaxBrightness());
+        updater.TransferToDisplay(canvas.getBuffer(), ax206);
+    }
+    else
+    {
+        std::cout << "Image size doesn't match LCD! Use paint to scale your image to " << width << "x" << height << "." << std::endl;
+    }
 
     ax206.Close();
 
