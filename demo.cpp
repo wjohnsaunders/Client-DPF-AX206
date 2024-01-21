@@ -5,7 +5,6 @@
 #include "updateoptimizer.hpp"
 #include "rect.hpp"
 #include "colors.hpp"
-#include "image.hpp"
 
 //#define ANIMATED_COLOR_LINES
 
@@ -80,33 +79,23 @@ int main()
         updater.TransferToDisplay(canvas.getBuffer(), ax206);
     }
 #else
-    Image image;
-    image.Load(L"TestImage.jpg");
-    for (size_t y = 0; y < height; ++y)
+    for (size_t y = 0; y < 128; ++y)
     {
-        for (size_t x = 0; x < width; ++x)
+        for (size_t x = 0; x < 128; ++x)
         {
-            canvas.drawPixel(x, y, image.GetPixel(x, y));
+            canvas.drawPixel(20 + x, 75 + y, RGB565(x * 2, y * 2, 0));
+            canvas.drawPixel(336 + x, 75 + y, RGB565(x * 2, 0, y * 2));
+            canvas.drawPixel(652 + x, 75 + y, RGB565(0, x * 2, y * 2));
         }
+
+        canvas.drawFastHLine(140, 278 + y, 40, RGB565(y * 2, y * 2, y * 2));
+        canvas.drawFastHLine(220, 278 + y, 40, RGB565(y * 2, 0, 0));
+        canvas.drawFastHLine(300, 278 + y, 40, RGB565(0, y * 2, 0));
+        canvas.drawFastHLine(380, 278 + y, 40, RGB565(0, 0, y * 2));
+        canvas.drawFastHLine(460, 278 + y, 40, RGB565(y * 2, y * 2, 0));
+        canvas.drawFastHLine(540, 278 + y, 40, RGB565(y * 2, 0, y * 2));
+        canvas.drawFastHLine(620, 278 + y, 40, RGB565(0, y * 2, y * 2));
     }
-
-    // for (size_t y = 0; y < 128; ++y)
-    // {
-    //     for (size_t x = 0; x < 128; ++x)
-    //     {
-    //         canvas.drawPixel(20 + x, 75 + y, RGB565(x * 2, y * 2, 0));
-    //         canvas.drawPixel(336 + x, 75 + y, RGB565(x * 2, 0, y * 2));
-    //         canvas.drawPixel(652 + x, 75 + y, RGB565(0, x * 2, y * 2));
-    //     }
-
-    //     canvas.drawFastHLine(140, 278 + y, 40, RGB565(y * 2, y * 2, y * 2));
-    //     canvas.drawFastHLine(220, 278 + y, 40, RGB565(y * 2, 0, 0));
-    //     canvas.drawFastHLine(300, 278 + y, 40, RGB565(0, y * 2, 0));
-    //     canvas.drawFastHLine(380, 278 + y, 40, RGB565(0, 0, y * 2));
-    //     canvas.drawFastHLine(460, 278 + y, 40, RGB565(y * 2, y * 2, 0));
-    //     canvas.drawFastHLine(540, 278 + y, 40, RGB565(y * 2, 0, y * 2));
-    //     canvas.drawFastHLine(620, 278 + y, 40, RGB565(0, y * 2, y * 2));
-    // }
 
     updater.TransferToDisplay(canvas.getBuffer(), ax206);
 #endif
