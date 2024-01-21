@@ -57,14 +57,18 @@ Create a "build" directory inside the root of the source code.
 
 Open a command prompt in the "build" directory.
 
-Run **cmake -G "Ninja" ..** then run **ninja** and the prototype.exe will be built.
+Run **cmake -G "Ninja" ..** then run **ninja** and demo.exe and loadimage.exe will be built.
 
 Note: Make sure the MinGW-64 gcc and g++ compilers are the first in your PATH so that CMake
 picks it up. I initially had trouble because CMake prefered Clang over GCC.
 
 ## Code Description
 
-The color gradient demo and animation code is in main.cpp
+demo.cpp - Demo for drawing to the bitmap and sending to the LCD. There is the option to draw
+a color gradient, or display a "stix" animation.
+
+loadimage.cpp - Tool to load a fixed 800x480 image onto the display. Supports file formats as
+supported by Gdiplus. Must be 800x480 image, it doesn't scale.
 
 display.hpp specifies an interface that all displays must implement. Only 1 display implemented
 for now,
@@ -81,3 +85,6 @@ framebuffer, so it falls back to full framebuffer blit if the display required t
 functionality may be possible with better firmwware on your display, or a different display type.
 
 rect.{cpp|hpp} Utility class for holding the coordinates defining a rectangle.
+
+image.{cpp|hpp} Utility class to load image files via Windows Gdiplus classes. Not the most portable
+way, but the quickest way on Windows.
